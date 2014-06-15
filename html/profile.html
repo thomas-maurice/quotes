@@ -1,0 +1,123 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    Profile
+</%block>
+
+<center>
+	<h1>Profil d'utilisateur</h1>
+	<h3>Loggé en tant que ${user.login} (<span id="myReal">${user.realName}</span>)</h3>
+</center>
+
+<%block name="headjavascript">
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#chpassButton").click(function() {
+				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Envoi de la demande</p>"+
+								"</div>");
+				$.post("chpass", {
+					'password': $("#password").val(),
+					'npassword1': $("#npassword1").val(),
+					'npassword2': $("#npassword2").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Succès:</b> "+obj.msg+"</p>"+
+								"</div>");
+						} else {
+							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Echec:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						$("#password").val("");
+						$("#npassword1").val("");
+						$("#npassword2").val("");
+					}
+				);
+			});
+			$("#chrealButton").click(function() {
+				$("#consoleResponseReal").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Envoi de la demande</p>"+
+								"</div>");
+				$.post("chreal", {
+					'realname': $("#realname").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponseReal").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Succès:</b> "+obj.msg+"</p>"+
+								"</div>");
+							$("#myReal").html($("#realname").val());
+						} else {
+							$("#consoleResponseReal").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Echec:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						$("#realname").val("");
+					}
+				);
+			});
+		});
+	</script>
+	
+</%block>
+
+<div class="row">
+	<div class="col-md-6">
+		<h2>Groupes</h2>
+		<div class="100">
+			<p>Vos groupes : </p>
+			<ul>
+			% for g in user.groups:
+				<li>${g.name}</li>
+			% endfor
+			</ul>
+		</div>
+		<h2>Changer de nom</h2>
+		<form action="javascript:void(0);" role="form">
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-user"></span>	
+				<input type="text" id="realname" size="15" placeholder="nouveau nom" class="form-control"/>
+				<span class="input-group-btn"> 	
+				<button id="chrealButton" class="btn btn-default">Changer de nom</button>
+				</span>
+			</div>
+		</form>
+		</br>
+		<div class="large-100" id="consoleResponseReal"></div>
+	</div>
+	<div class="col-md-6">
+		<h2>Changer de mot de passe</h2>
+		<form action="javascript:void(0);" role="form">
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="password" size="15" placeholder="Mot de passe actuel" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="npassword1" size="15" placeholder="Nouveau mot de passe" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="npassword2" size="15" placeholder="Confirmer le nouveau mot de passe" class="form-control"/>
+			</div>
+			</br>
+			<center>		
+				<button id="chpassButton" class="btn btn-default btn-block">Changer mon mot de passe</button>
+			</center>
+		</form>
+		</br>
+		<div class="large-100" id="consoleResponse"></div>
+	</div>
+</div>

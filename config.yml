@@ -1,0 +1,3 @@
+basedir: /home/svartbergtroll/quote
+database: database.sqlite
+name: quotes

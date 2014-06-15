@@ -1,0 +1,115 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    Utilisateurs
+</%block>
+
+<%block name="headjavascript">
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#newUserButton").click(function() {
+				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Envoi de la demande de création</p>"+
+								"</div>");
+				$.post("newuser", {
+					'username': $("#username").val(),
+					'realname': $("#realname").val(),
+					'password': $("#password").val(),
+					'confpassword': $("#confpassword").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Succès:</b> "+obj.msg+"</p>"+
+								"</div>");
+						} else {
+							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Echec:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						$("#password").val("");
+						$("#confpassword").val("");
+					}
+				);
+			});
+		});
+		function removeUser(user) {
+			$.post("deluser", {
+				'username': user
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Utilisateur supprimé avec succès !");
+						$("#row-"+user).remove();
+					} else {
+						alert("Impossible de supprimer l'utilisateur : " + obj.msg);
+					}
+				}
+			);
+		}
+	</script>
+</%block>
+
+<div class="row">
+	<div class="col-md-6">
+		<h2>Liste des utilisateurs</h2>
+		<table class="table table-hover table-stripped">
+			<thead>
+				<tr>
+					<th>Login</th>
+					<th>Hash</th>
+					<th>Groupes</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				% for u in users:
+					<tr id="row-${u.login}">
+						<td>${u.login}</td>
+						<td>${u.passHash}</td>
+						<td>
+							% for g in u.groups:
+								${g.name}
+							% endfor
+						</td>
+						<td><a href="javascript:void(0);" onclick="removeUser('${u.login}');">Supprimer</a></td>
+					</tr>
+				% endfor
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6">
+		<h2>Ajouter un utilisateur</h2>
+		<form action="javascript:void(0);" role="form">
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-user"></span>	
+				<input type="text" id="username" size="15" placeholder="nom d'utilisateur (login)" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-eye-open"></span>	
+				<input type="text" id="realname" size="15" placeholder="nom réel d'utilisateur" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="password" size="25" placeholder="mot de passe" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="confpassword" size="25" placeholder="confirmer le mot de passe" class="form-control"/>
+			</div>
+			</br>
+			<center>		
+				<button id="newUserButton" class="btn btn-default btn-block">Créer le nouvel utilisateur</button>
+			</center>
+		</form>
+		</br>
+		<div class="large-100" id="consoleResponse"></div>
+	</div>
+</div>

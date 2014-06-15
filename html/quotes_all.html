@@ -1,0 +1,66 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    ${env["name"]} - All !
+</%block>
+
+<%block name="headjavascript">
+	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		function removeQuote(id) {
+			$.post("${env['mountpoint']}/manage/del_one", {
+				'qid': id
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Quote supprimé avec succès !");
+						$("#quote-"+quote).remove();
+					} else {
+						alert("Impossible de supprimer la quote : " + obj.msg);
+					}
+				}
+			);
+		}
+		function removeQuote(id) {
+			$.post("${env['mountpoint']}/manage/del_one", {
+				'qid': id
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Quote supprimé avec succès !");
+						$("#quote-"+id).remove();
+					} else {
+						alert("Impossible de supprimer la quote : " + obj.msg);
+					}
+				}
+			);
+		}
+	</script>
+</%block>
+
+<center>
+	<h1>${env["name"]}</h1>
+</center>
+<div class="row">
+	<div class="col-md-12">
+		<h2>Toutes les quotes <small>| ${len(quotes)} quotes enregistrées</small></h2>
+		% for i in range(0,len(quotes)):
+			<div class="quote" id="quote-${quotes[i].id}">
+				<blockquote>
+					<p>${quotes[i].quote.decode('utf-8')}</p>
+					<footer><cite class="hint--bottom hint--rounded"
+					data-hint="Enregistrée par ${quotes[i].submitter}">${quotes[i].author}</cite>
+					% if session.get("username") == quotes[i].submitter or session.get("username") == "admin":
+						| <a href="javascript:void(0);" onclick="removeQuote(${quotes[i].id});">Supprimer</a> | <a href="#">Éditer</a> | <a href="#">Lien</a>
+					% endif
+					</footer>
+				</blockquote>
+			</div>
+		% endfor
+	</div>
+</div>
