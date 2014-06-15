@@ -60,7 +60,7 @@ So the python dependecies for this project are :
 
 For all the design stuff it uses [Bootstrap](http://getbootstrap.com/),
 [jQuery](https://jquery.com/) [Chart.js](http://www.chartjs.org/)
+[Font Awesome](https://fortawesome.github.io/Font-Awesome/)
 and [Hint.css](http://kushagragour.in/lab/hint/)
-
 
 Have fun :)
