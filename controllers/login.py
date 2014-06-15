@@ -73,22 +73,22 @@ class Login:
 			formatted error code and explication.
 		"""
 		if cherrypy.session["log"] != True or password==None or npassword1==None or npassword2 == None:
-			return '{status: "fail", msg: "Champs vides."}'
+			return '{status: "fail", msg: "Empty fields."}'
 		else:
 			u = users.userExists(cherrypy.session["username"])
 			if u.verifyPassword(password):
 				if npassword1 != npassword2:
-					return '{"status": "fail", "msg": "Les deux mots de passe ne correspondent pas !"}'
+					return '{"status": "fail", "msg": "The two given passwords do not match"}'
 				if npassword1 == "" or npassword2 == "":
-					return '{"status": "fail", "msg": "Le mot de passe ne peut pas être vide"}'
+					return '{"status": "fail", "msg": "The password cannot be empty"}'
 				else:
 					try:
 						u.changePassword(npassword1)
-						return '{"status": "ok", "msg": "Mot de passe mis a jour !"}'
+						return '{"status": "ok", "msg": "Password updated"}'
 					except Exception as e:
 						return '{"status": "fail", "msg": "'+str(e)+'"}'
 			else:
-				return '{"status": "fail", "msg": "Mot de passe incorrect."}'
+				return '{"status": "fail", "msg": "Incorrect password"}'
 	
 	@cherrypy.expose
 	def chreal(self, realname=None):
@@ -96,17 +96,17 @@ class Login:
 			Changes a user's realname
 		"""
 		if cherrypy.session["log"] != True or realname == None:
-			return '{"status": "fail", "msg": "Champs vides."}'
+			return '{"status": "fail", "msg": "Empty fields"}'
 		else:
 			u = users.userExists(cherrypy.session["username"])
 			if u != None:
 				try:
 					u.realName = realname
-					return '{"status": "ok", "msg": "Nom mis a jour."}'
+					return '{"status": "ok", "msg": "Realname updated"}'
 				except Exception as e:
 					return '{"status": "fail", "msg": "'+str(e)+'"}'
 			else:
-				return '{"status": "fail", "msg": "Je n\'ai pas pu changer votre nom :("}'
+				return '{"status": "fail", "msg": "Unable to change realname :("}'
 	
 	@cherrypy.expose
 	def logout(self):
@@ -133,19 +133,19 @@ class Login:
 			Creates a user
 		"""
 		if password=="" or confpassword=="" or username == "" or realname == "":
-			return '{"status": "fail", "msg": "Champs vides"}'
+			return '{"status": "fail", "msg": "Empty fields"}'
 		else:
 			if password != confpassword:
-				return '{"status": "fail", "msg": "Les deux mots de passe ne correspondent pas !"}'
+				return '{"status": "fail", "msg": "The two passwords do not match"}'
 			u = users.userExists(username)
 			if u != None:
-				return '{"status": "fail", "msg": "Cet utilisateur existe deja"}'
+				return '{"status": "fail", "msg": "This user already exists"}'
 			
 			try:
 				u = User(login=username,realName=realname)
 				u.changePassword(password)
 				u.addGroup("user")
-				return '{"status": "ok", "msg": "Utilisateur <b>' + username + '</b> cree avec succes !"}'
+				return '{"status": "ok", "msg": "User<b>' + username + '</b> successfully created !"}'
 			except Exception as e:
 				return '{ "status": "fail", "msg": "'+str(e)+'"}'
 	
@@ -156,16 +156,16 @@ class Login:
 			Deletes a user
 		"""
 		if username == "":
-			return '{"status": "fail", "msg": "Aucun utilisateur"}'
+			return '{"status": "fail", "msg": "No such user"}'
 		elif username == "admin":
-			return '{"status": "fail", "msg": "Cet utilisateur ne peut etre enleve"}'
+			return '{"status": "fail", "msg": "This user cannot be removed"}'
 		else:
 			u = users.userExists(username)
 			if u == None:
-				return '{"status": "fail", "msg": "Cet utilisateur n\'existe pas"}'
+				return '{"status": "fail", "msg": "This user does not exist"}'
 			else:
 				if users.deleteUser(username):
-					return '{"status": "ok", "msg": "Utilisateur <b>' + username + '</b> detruit avec succes !"}'
+					return '{"status": "ok", "msg": "User <b>' + username + '</b> successfully removed !"}'
 				else:
-					return '{ "status": "fail", "msg": "Echec"}'
+					return '{ "status": "fail", "msg": "Failure"}'
 		

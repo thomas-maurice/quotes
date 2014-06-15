@@ -11,7 +11,7 @@
 		$(document).ready(function() {
 			$("#newQuoteButton").click(function() {
 				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
-								"<p><b>Information: </b> Envoi de la quote !</p>"+
+								"<p><b>Information: </b> Sending the quote !</p>"+
 								"</div>");
 				$.post("${env['mountpoint']}/manage/add_one", {
 					'quote': $("#quote").val(),
@@ -21,11 +21,11 @@
 						
 						if(obj.status == 'ok') {
 							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
-								"<p><b>Succès:</b> "+obj.msg+"</p>"+
+								"<p><b>Success:</b> "+obj.msg+"</p>"+
 								"</div>");
 						} else {
 							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
-								"<p><b>Echec:</b> "+obj.msg+"</p>"+
+								"<p><b>Failure:</b> "+obj.msg+"</p>"+
 								"</div>");
 						}
 						
@@ -45,17 +45,17 @@
 </center>
 <div class="row">
 	<div class="col-md-12">
-		<h2>En ajouter une !</h2>
+		<h2>Add one quote !</h2>
 		<form action="javascript:void(0);" role="form">
 			<textarea id="quote" class="form-control" placeholder="Quote :)" rows="3"></textarea>
 			</br>
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-user"></span>	
-				<input type="text" id="author" size="15" placeholder="Auteur de la quote" class="form-control"/>
+				<input type="text" id="author" size="15" placeholder="Author" class="form-control"/>
 			</div>
 			</br>
 			<center>		
-				<button id="newQuoteButton" class="btn btn-default btn-block">Ajouter la quote !</button>
+				<button id="newQuoteButton" class="btn btn-default btn-block">Add the quote !</button>
 			</center>
 		</form>
 		</br>

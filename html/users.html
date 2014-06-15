@@ -1,7 +1,7 @@
 <%inherit file="base.html"/>
 
 <%block name="title">
-    Utilisateurs
+    Users
 </%block>
 
 <%block name="headjavascript">
@@ -10,7 +10,7 @@
 		$(document).ready(function() {
 			$("#newUserButton").click(function() {
 				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
-								"<p><b>Information: </b> Envoi de la demande de création</p>"+
+								"<p><b>Information: </b> Sending the creation request</p>"+
 								"</div>");
 				$.post("newuser", {
 					'username': $("#username").val(),
@@ -46,10 +46,10 @@
 					var obj = $.parseJSON(data)
 					
 					if(obj.status == 'ok') {
-						alert("Utilisateur supprimé avec succès !");
+						alert("User successfully removed");
 						$("#row-"+user).remove();
 					} else {
-						alert("Impossible de supprimer l'utilisateur : " + obj.msg);
+						alert("Impossible to remove user : " + obj.msg);
 					}
 				}
 			);
@@ -59,13 +59,13 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<h2>Liste des utilisateurs</h2>
+		<h2>User list</h2>
 		<table class="table table-hover table-stripped">
 			<thead>
 				<tr>
 					<th>Login</th>
 					<th>Hash</th>
-					<th>Groupes</th>
+					<th>Groups</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -86,27 +86,27 @@
 		</table>
 	</div>
 	<div class="col-md-6">
-		<h2>Ajouter un utilisateur</h2>
+		<h2>Add a user</h2>
 		<form action="javascript:void(0);" role="form">
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-user"></span>	
-				<input type="text" id="username" size="15" placeholder="nom d'utilisateur (login)" class="form-control"/>
+				<input type="text" id="username" size="15" placeholder="username (login)" class="form-control"/>
 			</div>
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-eye-open"></span>	
-				<input type="text" id="realname" size="15" placeholder="nom réel d'utilisateur" class="form-control"/>
+				<input type="text" id="realname" size="15" placeholder="realname" class="form-control"/>
 			</div>
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
-				<input type="password" id="password" size="25" placeholder="mot de passe" class="form-control"/>
+				<input type="password" id="password" size="25" placeholder="password" class="form-control"/>
 			</div>
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
-				<input type="password" id="confpassword" size="25" placeholder="confirmer le mot de passe" class="form-control"/>
+				<input type="password" id="confpassword" size="25" placeholder="confirm password" class="form-control"/>
 			</div>
 			</br>
 			<center>		
-				<button id="newUserButton" class="btn btn-default btn-block">Créer le nouvel utilisateur</button>
+				<button id="newUserButton" class="btn btn-default btn-block">Create the new user</button>
 			</center>
 		</form>
 		</br>

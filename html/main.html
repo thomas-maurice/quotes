@@ -8,35 +8,6 @@
 	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
 	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#newQuoteButton").click(function() {
-				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
-								"<p><b>Information: </b> Envoi de la quote !</p>"+
-								"</div>");
-				$.post("${env['mountpoint']}/manage/add_one", {
-					'quote': $("#quote").val(),
-					'author': $("#author").val()},
-					function(data,status){
-						var obj = $.parseJSON(data)
-						
-						if(obj.status == 'ok') {
-							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
-								"<p><b>Succès:</b> "+obj.msg+"</p>"+
-								"</div>");
-						} else {
-							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
-								"<p><b>Echec:</b> "+obj.msg+"</p>"+
-								"</div>");
-						}
-						
-						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
-						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
-						$("#quote").val("");
-						$("#author").val("");
-					}
-				);
-			});
-		});
 		function removeQuote(id) {
 			$.post("manage/del_one", {
 				'qid': id
@@ -45,10 +16,10 @@
 					var obj = $.parseJSON(data)
 					
 					if(obj.status == 'ok') {
-						alert("Quote supprimé avec succès !");
+						alert("Quote successfully deleted !");
 						$("#quote-"+id).remove();
 					} else {
-						alert("Impossible de supprimer la quote : " + obj.msg);
+						alert("Impossible to remove quote : " + obj.msg);
 					}
 				}
 			);
@@ -67,30 +38,30 @@
 				<blockquote>
 					<p>${randquotes[i].quote.decode('utf-8')}</p>
 					<footer><cite class="hint--bottom hint--rounded"
-					data-hint="Enregistrée par ${randquotes[i].submitter}">${randquotes[i].author}</cite>
+					data-hint="Submitted by ${randquotes[i].submitter}">${randquotes[i].author}</cite>
 					% if session.get("username") == randquotes[i].submitter or session.get("username") == "admin":
-						| <a href="#" onclick="removeQuote(l${randquotes[i].id});"><i class="fa fa-times"></i> Supprimer</a>
-						| <a href="#"><i class="fa fa-wrench"></i> Éditer</a>
+						| <a href="#" onclick="removeQuote(l${randquotes[i].id});"><i class="fa fa-times"></i> Delete</a>
+						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
-					 | <a href="#"><i class="fa fa-link"></i> Lien</a>
+					 | <a href="#"><i class="fa fa-link"></i> Link</a>
 					</footer>
 				</blockquote>
 			</div>
 		% endfor
 	</div>
 	<div class="col-md-6">
-		<h2>Les cinq dernières</h2>
+		<h2>The latest one</h2>
 		% for i in range(len(quotes)-1, max(0, len(quotes)-6), -1):
 			<div class="quote" id="quote-l${quotes[i].id}">
 				<blockquote>
 					<p>${quotes[i].quote.decode('utf-8')}</p>
 					<footer><cite class="hint--bottom hint--rounded"
-					data-hint="Enregistrée par ${quotes[i].submitter}">${quotes[i].author}</cite>
+					data-hint="Submitted by ${quotes[i].submitter}">${quotes[i].author}</cite>
 					% if session.get("username") == quotes[i].submitter or session.get("username") == "admin":
-						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Supprimer</a>
-						| <a href="#"><i class="fa fa-wrench"></i> Éditer</a>
+						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Delete</a>
+						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
-					 | <a href="#"><i class="fa fa-link"></i> Lien</a>
+					 | <a href="#"><i class="fa fa-link"></i> Link</a>
 					</footer>
 				</blockquote>
 			</div>

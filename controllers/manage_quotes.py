@@ -22,11 +22,11 @@ class Manage:
 				Add one quote
 		"""
 		if quote=="" or author=="":
-			return '{"status": "fail", "msg": "Champs vides"}'
+			return '{"status": "fail", "msg": "Empty fields !"}'
 		else:
 			try:
 				q = Quote(quote=quote.encode("utf-8"), author=author, submitter=cherrypy.session['username'])
-				return '{"status": "ok", "msg": "Quote creee !"}'
+				return '{"status": "ok", "msg": "Quote created !"}'
 			except Exception as e:
 				print e
 				return '{ "status": "fail", "msg": "'+str(e)+'"}'
@@ -42,7 +42,7 @@ class Manage:
 			q = Quote.get(int(qid))
 			if q.submitter == cherrypy.session.get("username") or cherrypy.session.get("username") == "admin":
 				q.destroySelf()
-				return '{"status": "ok", "msg": "Quote detruite !"}'
+				return '{"status": "ok", "msg": "Quote removed"}'
 			else:
 				return '{"status": "fail", "msg": "Nope"}'
 		except Exception as e:

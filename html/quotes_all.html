@@ -16,10 +16,10 @@
 					var obj = $.parseJSON(data)
 					
 					if(obj.status == 'ok') {
-						alert("Quote supprimé avec succès !");
+						alert("Quote successfully deleted");
 						$("#quote-"+quote).remove();
 					} else {
-						alert("Impossible de supprimer la quote : " + obj.msg);
+						alert("Unable to remove quote : " + obj.msg);
 					}
 				}
 			);
@@ -32,10 +32,10 @@
 					var obj = $.parseJSON(data)
 					
 					if(obj.status == 'ok') {
-						alert("Quote supprimé avec succès !");
+						alert("Quote successfully deleted !");
 						$("#quote-"+id).remove();
 					} else {
-						alert("Impossible de supprimer la quote : " + obj.msg);
+						alert("Unable to remove quote : " + obj.msg);
 					}
 				}
 			);
@@ -48,18 +48,18 @@
 </center>
 <div class="row">
 	<div class="col-md-12">
-		<h2>Toutes les quotes <small>| ${len(quotes)} quotes enregistrées</small></h2>
+		<h2>All the quotes <small>| ${len(quotes)} quotes</small></h2>
 		% for i in range(0,len(quotes)):
 			<div class="quote" id="quote-${quotes[i].id}">
 				<blockquote>
 					<p>${quotes[i].quote.decode('utf-8')}</p>
 					<footer><cite class="hint--bottom hint--rounded"
-					data-hint="Enregistrée par ${quotes[i].submitter}">${quotes[i].author}</cite>
+					data-hint="Submitted by ${quotes[i].submitter}">${quotes[i].author}</cite>
 					% if session.get("username") == quotes[i].submitter or session.get("username") == "admin":
-						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Supprimer</a>
-						| <a href="#"><i class="fa fa-wrench"></i> Éditer</a>
+						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Delete</a>
+						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
-					 | <a href="#"><i class="fa fa-link"></i> Lien</a>
+					 | <a href="#"><i class="fa fa-link"></i> Link</a>
 					</footer>
 				</blockquote>
 			</div>
