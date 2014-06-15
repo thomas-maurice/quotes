@@ -1,5 +1,6 @@
-<<<<<<< HEAD
 # quotes 
+A quote management system, because the office's whiteboard is too mainstream
+
 ## What is quotes ?
 *quotes* is a webapp designed to be a quote management system. What for ?
 Because at work, in your university promotion there are those guys who
@@ -31,9 +32,3 @@ the original authors (or *admin*) can delete or edit a quote. Don't spam,
 a ban system will be implemented later on.
 
 Have fun :)
-=======
-quotes
-======
-
-A quote management system, because the office's whiteboard is too mainstream
->>>>>>> 43f44d10dde0acad9bb863e29f3d2d2012ebd7e2
