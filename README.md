@@ -9,10 +9,7 @@ you use to store them has not an infinite memory. *quotes* is here to solve
 the problem !
 
 ## How do I run it ?
-*quotes* is a webapp deveopped in Python and using the framework cherrypy
-and the templating language mako. It uses sqlite to store the datas and
-is very light as a consequence since it does not require any heavy database
-management system like MySQL or Postgres. You simply run `./quotes.py` in
+You simply run `./quotes.py` in
 the source folder and the application will start on the port 8080.
 
 I would recommand to run it in a more premanent way behind Nginx or
@@ -30,5 +27,32 @@ can start to create your users.
 The permission system is quite basic. Anyone can create a quote, but only
 the original authors (or *admin*) can delete or edit a quote. Don't spam,
 a ban system will be implemented later on.
+
+## Functionnalities !
+The webapp is split in several pages. The main pages displays five random
+quotes on a pannel, and the five most recent on the other.
+
+The second page display all the quotes.
+
+The third allow you to add some quotes.
+
+The fourth is not implemented yet, it's a surprise ;)
+
+Finally the admin will se a "User" tab to manage them.
+
+And then a "Profile" and "Logout" page.
+
+As simple as that :)
+
+## Which technologies does it use ?
+*quotes* is a webapp deveopped in Python and using the framework cherrypy
+and the templating language mako. It uses sqlite to store the datas and
+is very light as a consequence since it does not require any heavy database
+management system like MySQL or Postgres.
+
+For all the design stuff it uses [Bootstrap](http://getbootstrap.com/),
+[jQuery](https://jquery.com/) [Chart.js](http://www.chartjs.org/)
+and [Hint.css](http://kushagragour.in/lab/hint/)
+
 
 Have fun :)
