@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+	config.py
+	
+	This is the general configuration file. It serves to load the config.yml
+	one and set up all the pathes needed. It also configures cherrypy by adding
+	all the tools and plugins needed by the application.
+"""
+
 import cherrypy
 import os
 import yaml

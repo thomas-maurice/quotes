@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+	Restricts access to certain pages to certain users/groups
+"""
+
 import cherrypy
 import sqlobject as sql
 import controllers.config

@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+	Manages the users authentifications.
+	
+	For instance will check in the DB to ensure that a user is allowed to
+	access the website. It will modify the session variables to set the
+	correct groups.
+"""
+
 import cherrypy
 import yaml
 import hashlib
@@ -15,6 +23,9 @@ import tools.restrict_access
 class Login:
 	@cherrypy.expose
 	def index(self):
+		"""
+			Displays the main login page
+		"""
 		if cherrypy.session.get("log") == True:
 			raise cherrypy.HTTPRedirect(config.mountPoint)
 		else:
@@ -23,6 +34,11 @@ class Login:
 	
 	@cherrypy.expose
 	def login(self, username="", password=""):
+		"""
+			Ajax target of the login page. Will redirect the user back to
+			the login page if the identification fails. Otherwise it will
+			modify the sessions variable to set information about the user.
+		"""
 		u = users.userExists(username)
 		if u != None:
 			if u.verifyPassword(password):
@@ -33,7 +49,6 @@ class Login:
 					print g.name
 					if g.name == "admin":
 						cherrypy.session["admin"] = True
-						print "admin!"
 				raise cherrypy.HTTPRedirect(config.mountPoint)
 			else:
 				raise cherrypy.HTTPRedirect(config.mountPoint + "/login")
@@ -41,6 +56,9 @@ class Login:
 	
 	@cherrypy.expose
 	def profile(self):
+		"""
+			Displays the profile page of the user
+		"""
 		if cherrypy.session.get("log") == True:
 			u = users.userExists(cherrypy.session["username"])
 			tmpl = config.lookup.get_template("profile.html")
@@ -50,6 +68,10 @@ class Login:
 	
 	@cherrypy.expose
 	def chpass(self, password=None, npassword1=None, npassword2=None):
+		"""
+			Changes the user's password. In case of failure it will return a JSON
+			formatted error code and explication.
+		"""
 		if cherrypy.session["log"] != True or password==None or npassword1==None or npassword2 == None:
 			return '{status: "fail", msg: "Champs vides."}'
 		else:
@@ -70,6 +92,9 @@ class Login:
 	
 	@cherrypy.expose
 	def chreal(self, realname=None):
+		"""
+			Changes a user's realname
+		"""
 		if cherrypy.session["log"] != True or realname == None:
 			return '{"status": "fail", "msg": "Champs vides."}'
 		else:
@@ -85,12 +110,18 @@ class Login:
 	
 	@cherrypy.expose
 	def logout(self):
+		"""
+			Disconnects a user
+		"""
 		cherrypy.lib.sessions.expire()
 		raise cherrypy.HTTPRedirect(config.mountPoint)
 	
 	@cherrypy.expose
 	@cherrypy.tools.restrict_access(groups=['admin'])
 	def users(self):
+		"""
+			List users, for the asmins
+		"""
 		tmpl = config.lookup.get_template("users.html")
 		ulist = list(User.select())
 		return tmpl.render(env=config.htmlEnv, users=ulist, session=cherrypy.session)
@@ -98,6 +129,9 @@ class Login:
 	@cherrypy.expose
 	@cherrypy.tools.restrict_access(groups=['admin'])
 	def newuser(self, username=None, password=None, confpassword=None, realname=None):
+		"""
+			Creates a user
+		"""
 		if password=="" or confpassword=="" or username == "" or realname == "":
 			return '{"status": "fail", "msg": "Champs vides"}'
 		else:
@@ -118,6 +152,9 @@ class Login:
 	@cherrypy.expose
 	@cherrypy.tools.restrict_access(groups=['admin'])
 	def deluser(self, username=None):
+		"""
+			Deletes a user
+		"""
 		if username == "":
 			return '{"status": "fail", "msg": "Aucun utilisateur"}'
 		elif username == "admin":
