@@ -26,9 +26,9 @@ def restrict_access(public=False, users = [], groups=[]):
 			if cherrypy.session.get("username") in users:
 				pass
 			else:
-				raise cherrypy.HTTPRedirect(controllers.config.mountPoint + "/login")
+				raise cherrypy.HTTPError(401)
 		except:
-			raise cherrypy.HTTPRedirect(controllers.config.mountPoint + "/login")
+			raise cherrypy.HTTPError(401)
 
 	if groups != []:
 		try:
@@ -44,9 +44,9 @@ def restrict_access(public=False, users = [], groups=[]):
 			if isok == True:
 				pass
 			else:
-				raise cherrypy.HTTPRedirect(controllers.config.mountPoint + "/login")
+				raise cherrypy.HTTPError(401)
 		except Exception as e:
 			print e
-			raise cherrypy.HTTPRedirect(controllers.config.mountPoint + "/login")
+			raise cherrypy.HTTPError(401)
 	
 cherrypy.tools.restrict_access = cherrypy.Tool('before_handler', restrict_access)

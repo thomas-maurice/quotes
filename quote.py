@@ -28,13 +28,20 @@ class Index():
 			return tmpl.render(quotes=qs, randquotes=liste, env=config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
 		else:
 			raise cherrypy.HTTPRedirect(config.mountPoint + "/login")
+			
 @cherrypy.expose
 @cherrypy.tools.restrict_access()
 def error_page_404(status, message, traceback, version):
 	tmpl = controllers.config.lookup.get_template("404.html")
 	return tmpl.render(env=config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
 
-cherrypy.config.update({'error_page.404': error_page_404})	
+@cherrypy.expose
+@cherrypy.tools.restrict_access()
+def error_page_401(status, message, traceback, version):
+	tmpl = controllers.config.lookup.get_template("401.html")
+	return tmpl.render(env=config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
+
+cherrypy.config.update({'error_page.404': error_page_404, 'error_page.401': error_page_401})	
 application = cherrypy.tree.mount(Index(), config.mountPoint, config=controllers.config.monitorConfig)
 
 if __name__ == "__main__":
