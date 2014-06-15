@@ -50,6 +50,14 @@ and the templating language mako. It uses sqlite to store the datas and
 is very light as a consequence since it does not require any heavy database
 management system like MySQL or Postgres.
 
+So the python dependecies for this project are :
+ 
+ * python-cherrypy3
+ * python-mako
+ * python-sqlite3
+ * python-sqlobject
+ * python-yaml
+
 For all the design stuff it uses [Bootstrap](http://getbootstrap.com/),
 [jQuery](https://jquery.com/) [Chart.js](http://www.chartjs.org/)
 and [Hint.css](http://kushagragour.in/lab/hint/)
