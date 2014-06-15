@@ -69,8 +69,10 @@
 					<footer><cite class="hint--bottom hint--rounded"
 					data-hint="Enregistrée par ${randquotes[i].submitter}">${randquotes[i].author}</cite>
 					% if session.get("username") == randquotes[i].submitter or session.get("username") == "admin":
-						| <a href="#" onclick="removeQuote(${randquotes[i].id});">Supprimer</a> | <a href="#">Éditer</a> | <a href="#">Lien</a>
+						| <a href="#" onclick="removeQuote(l${randquotes[i].id});"><i class="fa fa-times"></i> Supprimer</a>
+						| <a href="#"><i class="fa fa-wrench"></i> Éditer</a>
 					% endif
+					 | <a href="#"><i class="fa fa-link"></i> Lien</a>
 					</footer>
 				</blockquote>
 			</div>
@@ -85,8 +87,10 @@
 					<footer><cite class="hint--bottom hint--rounded"
 					data-hint="Enregistrée par ${quotes[i].submitter}">${quotes[i].author}</cite>
 					% if session.get("username") == quotes[i].submitter or session.get("username") == "admin":
-						| <a href="#" onclick="removeQuote(l${randquotes[i].id});">Supprimer</a> | <a href="#">Éditer</a> | <a href="#">Lien</a>
+						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Supprimer</a>
+						| <a href="#"><i class="fa fa-wrench"></i> Éditer</a>
 					% endif
+					 | <a href="#"><i class="fa fa-link"></i> Lien</a>
 					</footer>
 				</blockquote>
 			</div>

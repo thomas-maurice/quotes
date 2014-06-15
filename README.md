@@ -63,4 +63,9 @@ For all the design stuff it uses [Bootstrap](http://getbootstrap.com/),
 [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
 and [Hint.css](http://kushagragour.in/lab/hint/)
 
+## Running in a virtalenv
+Normally, *quotes* is runnable within a VirtualEnv, so to install all the
+needed dependencire just create your virtual environement and run within
+it the command `pip install -r virtualenv.requirements` and it should do it.
+
 Have fun :)

@@ -1,0 +1,8 @@
+CherryPy==3.3.0
+FormEncode==1.2.6
+Mako==1.0.0
+MarkupSafe==0.23
+PyYAML==3.11
+SQLObject==1.6.0
+pysqlite==2.6.3
+wsgiref==0.1.2
