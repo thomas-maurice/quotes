@@ -25,7 +25,7 @@ stream.close()
 
 baseDir = conf["basedir"]
 name = conf["name"]
-templateDir = "html"
+templateDir = "views"
 sessionDir = baseDir + "/sessions"
 logDir = baseDir + "/logs"
 accessLog = logDir + "/access.log"
