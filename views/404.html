@@ -1,0 +1,24 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    ${env["name"]} - 404
+</%block>
+
+<%block name="headjavascript">
+	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+</%block>
+
+<center> 
+	<h1>${env["name"]} - Error 404 <small>| The requested page does not exist !</small></h1>
+</center>
+<div class="row">
+	<div class="col-md-12">
+	</br></br>
+		<center>
+			<div class="hint--top hint--bounce" data-hint="Nope. Nope. Nope. 404 we said.">
+				<img alt="Nope. 404." src="${env['mountpoint']}/static/img/404.jpg" />
+			</div>
+		</center>
+	</div>
+</div>

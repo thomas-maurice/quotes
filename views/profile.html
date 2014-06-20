@@ -1,0 +1,123 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    Profile
+</%block>
+
+<center>
+	<h1>User profile</h1>
+	<h3>Logged as ${user.login} (<span id="myReal">${user.realName}</span>)</h3>
+</center>
+
+<%block name="headjavascript">
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#chpassButton").click(function() {
+				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Sending the request</p>"+
+								"</div>");
+				$.post("chpass", {
+					'password': $("#password").val(),
+					'npassword1': $("#npassword1").val(),
+					'npassword2': $("#npassword2").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Success:</b> "+obj.msg+"</p>"+
+								"</div>");
+						} else {
+							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Failure:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						$("#password").val("");
+						$("#npassword1").val("");
+						$("#npassword2").val("");
+					}
+				);
+			});
+			$("#chrealButton").click(function() {
+				$("#consoleResponseReal").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Sending the request</p>"+
+								"</div>");
+				$.post("chreal", {
+					'realname': $("#realname").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponseReal").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Success:</b> "+obj.msg+"</p>"+
+								"</div>");
+							$("#myReal").html($("#realname").val());
+						} else {
+							$("#consoleResponseReal").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Failure:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						$("#realname").val("");
+					}
+				);
+			});
+		});
+	</script>
+	
+</%block>
+
+<div class="row">
+	<div class="col-md-6">
+		<h2>Groups</h2>
+		<div class="100">
+			<p>Your groups : </p>
+			<ul>
+			% for g in user.groups:
+				<li>${g.name}</li>
+			% endfor
+			</ul>
+		</div>
+		<h2>Change your name</h2>
+		<form action="javascript:void(0);" role="form">
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-user"></span>	
+				<input type="text" id="realname" size="15" placeholder="new name" class="form-control"/>
+				<span class="input-group-btn"> 	
+				<button id="chrealButton" class="btn btn-default">Change my name</button>
+				</span>
+			</div>
+		</form>
+		</br>
+		<div class="large-100" id="consoleResponseReal"></div>
+	</div>
+	<div class="col-md-6">
+		<h2>Change password</h2>
+		<form action="javascript:void(0);" role="form">
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="password" size="15" placeholder="current password" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="npassword1" size="15" placeholder="new password" class="form-control"/>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-asterisk"></span>	
+				<input type="password" id="npassword2" size="15" placeholder="confirm new password" class="form-control"/>
+			</div>
+			</br>
+			<center>		
+				<button id="chpassButton" class="btn btn-default btn-block">Change password</button>
+			</center>
+		</form>
+		</br>
+		<div class="large-100" id="consoleResponse"></div>
+	</div>
+</div>
