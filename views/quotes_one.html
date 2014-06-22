@@ -27,23 +27,22 @@
 	</script>
 </%block>
 
-<div class="midScreen"></div>
+<div class="midScreen"></div><!-- To make a big space and center stuff -->
 <div class="row">
 	<div class="col-md-12 text-center">
-		<h2>Quote <small>|  quotes</small></h2>
-		<blockquote>
+		<blockquote style="font-size: 4em;">
 			<p>${quote.quote.decode('utf-8')}</p>
 			<footer><cite class="hint--bottom hint--rounded"
-			data-hint="Submitted by ${quote.submitter}">${quote.author}</cite>
+			data-hint="Submitted by ${quote.submitter}">${quote.author}</cite><span style="font-size: 0.5em;">
 			% if session.get("username") == quote.submitter or session.get("username") == "admin":
-				| <a href="#" onclick="removeQuote(l${quote.id});"><i class="fa fa-times"></i> Delete</a>
+				| <a href="#" onclick="removeQuote(${quote.id});"><i class="fa fa-times"></i> Delete</a>
 				| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 			% endif
-			| <a href="#"><i class="fa fa-link"></i> Link</a>
-			</footer>
+			| <a href="${env['mountpoint']}/manage/one/${quote.id}"><i class="fa fa-link"></i> Link</a>
+			</span></footer>
 		</blockquote>
 	</div>
 </div>
 <script type="text/javascript">
-	$(".midScreen").css("min-height", ($(window).height()/4)+"px");
+	$(".midScreen").css("min-height", ($(window).height()/5)+"px");
 </script>

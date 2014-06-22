@@ -43,7 +43,7 @@
 						| <a href="#" onclick="removeQuote(l${randquotes[i].id});"><i class="fa fa-times"></i> Delete</a>
 						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
-					 | <a href="#"><i class="fa fa-link"></i> Link</a>
+					 | <a href="${env['mountpoint']}/manage/one/${randquotes[i].id}"><i class="fa fa-link"></i> Link</a>
 					</footer>
 				</blockquote>
 			</div>
@@ -61,7 +61,7 @@
 						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Delete</a>
 						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
-					 | <a href="#"><i class="fa fa-link"></i> Link</a>
+					 | <a href="${env['mountpoint']}/manage/one/${quotes[i].id}"><i class="fa fa-link"></i> Link</a>
 					</footer>
 				</blockquote>
 			</div>

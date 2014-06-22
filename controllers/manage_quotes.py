@@ -92,7 +92,10 @@ class Manage:
 		"""
 			Display one quotes, i being the id
 		"""
-		q = Quote.get(int(i))
+		try:
+			q = Quote.get(int(i))
+		except:
+			raise cherrypy.HTTPError(404)
 		tmpl =  controllers.config.lookup.get_template("quotes_one.html")
 		return tmpl.render(quote=q, env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
 				
