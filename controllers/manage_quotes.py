@@ -98,5 +98,22 @@ class Manage:
 			raise cherrypy.HTTPError(404)
 		tmpl =  controllers.config.lookup.get_template("quotes_one.html")
 		return tmpl.render(quote=q, env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
+	
+	@cherrypy.expose
+	@cherrypy.tools.restrict_access()
+	def random(self):
+		"""
+			Display one quotes, i being the id
+		"""
+		q = random.choice(list(Quote.select()))
+		return "{'quote': '"+q.quote.decode('utf-8')+"', 'author':'"+q.author+"', 'id':'"+str(q.id)+"', 'submitter': '"+q.submitter+"'}"
 				
-		
+	
+	@cherrypy.expose
+	@cherrypy.tools.restrict_access()
+	def wall(self):
+		"""
+			Display the quotes, cycling
+		"""
+		tmpl =  controllers.config.lookup.get_template("quotes_wall.html")
+		return tmpl.render(env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)

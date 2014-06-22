@@ -1,0 +1,61 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    ${env["name"]} - All !
+</%block>
+
+<%block name="headjavascript">
+	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		function removeQuote(id) {
+			$.post("${env['mountpoint']}/manage/del_one", {
+				'qid': id
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Quote successfully deleted");
+						$("#quote-"+quote).remove();
+					} else {
+						alert("Unable to remove quote : " + obj.msg);
+					}
+				}
+			);
+		}
+		function removeQuote(id) {
+			$.post("${env['mountpoint']}/manage/del_one", {
+				'qid': id
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Quote successfully deleted !");
+						$("#quote-"+id).remove();
+					} else {
+						alert("Unable to remove quote : " + obj.msg);
+					}
+				}
+			);
+		}
+	</script>
+</%block>
+
+<div class="midScreen"></div><!-- To make a big space and center stuff -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="quote">
+			<blockquote>
+				<p id="quote"></p>
+				<footer><cite class="hint--bottom hint--rounded"
+				data-hint="" id="author"></cite>
+				</footer>
+			</blockquote>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".midScreen").css("min-height", ($(window).height()/5)+"px");
+</script>
