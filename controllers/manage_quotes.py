@@ -82,9 +82,18 @@ class Manage:
 		"""
 			Display all the quotes
 		"""
-		env = {'mountpoint': '/quote'}
 		liste = list(Quote.select())
 		tmpl =  controllers.config.lookup.get_template("quotes_all.html")
 		return tmpl.render(quotes=liste, env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
+	
+	@cherrypy.expose
+	@cherrypy.tools.restrict_access()
+	def one(self, i):
+		"""
+			Display one quotes, i being the id
+		"""
+		q = Quote.get(int(i))
+		tmpl =  controllers.config.lookup.get_template("quotes_one.html")
+		return tmpl.render(quote=q, env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
 				
 		

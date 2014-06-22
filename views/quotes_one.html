@@ -1,0 +1,49 @@
+<%inherit file="base.html"/>
+
+<%block name="title">
+    ${env["name"]} - One !
+</%block>
+
+<%block name="headjavascript">
+	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
+	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		function removeQuote(id) {
+			$.post("${env['mountpoint']}/manage/del_one", {
+				'qid': id
+				},
+				function(data,status){
+					var obj = $.parseJSON(data)
+					
+					if(obj.status == 'ok') {
+						alert("Quote successfully deleted !");
+						$("#quote-"+id).remove();
+					} else {
+						alert("Unable to remove quote : " + obj.msg);
+					}
+				}
+			);
+		}
+	</script>
+</%block>
+
+<div class="midScreen"></div>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<h2>Quote <small>|  quotes</small></h2>
+		<blockquote>
+			<p>${quote.quote.decode('utf-8')}</p>
+			<footer><cite class="hint--bottom hint--rounded"
+			data-hint="Submitted by ${quote.submitter}">${quote.author}</cite>
+			% if session.get("username") == quote.submitter or session.get("username") == "admin":
+				| <a href="#" onclick="removeQuote(l${quote.id});"><i class="fa fa-times"></i> Delete</a>
+				| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
+			% endif
+			| <a href="#"><i class="fa fa-link"></i> Link</a>
+			</footer>
+		</blockquote>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".midScreen").css("min-height", ($(window).height()/4)+"px");
+</script>
