@@ -8,35 +8,13 @@
 	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
 	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
 	<script type="text/javascript">
-		function removeQuote(id) {
-			$.post("${env['mountpoint']}/manage/del_one", {
-				'qid': id
-				},
+		function randomQuote() {
+			$.post("${env['mountpoint']}/manage/random", {},
 				function(data,status){
-					var obj = $.parseJSON(data)
-					
-					if(obj.status == 'ok') {
-						alert("Quote successfully deleted");
-						$("#quote-"+quote).remove();
-					} else {
-						alert("Unable to remove quote : " + obj.msg);
-					}
-				}
-			);
-		}
-		function removeQuote(id) {
-			$.post("${env['mountpoint']}/manage/del_one", {
-				'qid': id
-				},
-				function(data,status){
-					var obj = $.parseJSON(data)
-					
-					if(obj.status == 'ok') {
-						alert("Quote successfully deleted !");
-						$("#quote-"+id).remove();
-					} else {
-						alert("Unable to remove quote : " + obj.msg);
-					}
+					var obj = $.parseJSON(data);
+					$("#quote").html(obj.quote);
+					$("#author").html(obj.author);
+					$("#author").attr("data-hint", "Submitted by "+obj.submitter);
 				}
 			);
 		}
@@ -45,11 +23,11 @@
 
 <div class="midScreen"></div><!-- To make a big space and center stuff -->
 <div class="row">
-	<div class="col-md-12">
-		<div class="quote">
-			<blockquote>
+	<div class="col-md-12 text-center">
+		<div id="quoteblock">
+			<blockquote style="font-size: 4em;">
 				<p id="quote"></p>
-				<footer><cite class="hint--bottom hint--rounded"
+				<footer id="foo"><cite class="hint--bottom hint--rounded"
 				data-hint="" id="author"></cite>
 				</footer>
 			</blockquote>
@@ -57,5 +35,13 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(".midScreen").css("min-height", ($(window).height()/5)+"px");
+	$(".midScreen").css("min-height", ($(window).height()/4)+"px");
+	randomQuote();
+	setInterval(function(){
+			$("#quoteblock").fadeOut(1000, function() {
+				randomQuote();
+				$("#quoteblock").fadeIn(1000);
+			});
+		},
+		6000);
 </script>

@@ -106,7 +106,7 @@ class Manage:
 			Display one quotes, i being the id
 		"""
 		q = random.choice(list(Quote.select()))
-		return "{'quote': '"+q.quote.decode('utf-8')+"', 'author':'"+q.author+"', 'id':'"+str(q.id)+"', 'submitter': '"+q.submitter+"'}"
+		return '{"quote": "'+q.quote+'", "author":"'+q.author+'", "id":"'+str(q.id)+'", "submitter": "'+q.submitter+'"}'
 				
 	
 	@cherrypy.expose
