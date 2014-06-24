@@ -36,6 +36,36 @@
 					}
 				);
 			});
+			$("#editQuoteButton").click(function() {
+				$("#consoleResponse").html("<div class=\"alert alert-info fadeWhenOver\">"+
+								"<p><b>Information: </b> Sending the quote edition !</p>"+
+								"</div>");
+				$.post("${env['mountpoint']}/manage/edit_one", {
+					'qid': $("#qid").val(),
+					'quote': $("#quote").val(),
+					'author': $("#author").val()},
+					function(data,status){
+						var obj = $.parseJSON(data)
+						
+						if(obj.status == 'ok') {
+							$("#consoleResponse").html("<div class=\"alert alert-success fadeWhenOver\">"+
+								"<p><b>Success:</b> "+obj.msg+"</p>"+
+								"</div>");
+						} else {
+							$("#consoleResponse").html("<div class=\"alert alert-danger fadeWhenOver\">"+
+								"<p><b>Failure:</b> "+obj.msg+"</p>"+
+								"</div>");
+						}
+						
+						setTimeout(function() {$(".fadeWhenOver").fadeOut(3000);},5000);
+						setTimeout(function() {$(".fadeWhenOver").remove();},8000);
+						setTimeout(function() {window.location.replace("${env['mountpoint']}/manage/one/"+$("#qid").val());},2000);
+						$("#quote").val("");
+						$("#author").val("");
+						
+					}
+				);
+			});
 		});
 	</script>
 </%block>
@@ -45,17 +75,35 @@
 </center>
 <div class="row">
 	<div class="col-md-12">
-		<h2>Add one quote !</h2>
+		% if add == False:
+			<h2>Edit a quote !</h2>
+		% else:
+			<h2>Add one quote !</h2>
+		% endif	
 		<form action="javascript:void(0);" role="form">
-			<textarea id="quote" class="form-control" placeholder="Quote :)" rows="3"></textarea>
-			</br>
+			<textarea id="quote" class="form-control" placeholder="Quote :)" rows="3">
+			% if add == False:
+${quote.quote.decode('utf-8')}</textarea>
+% else:
+</textarea>
+% endif			</br>
 			<div class="input-group">
 				<span class="input-group-addon glyphicon glyphicon-user"></span>	
-				<input type="text" id="author" size="15" placeholder="Author" class="form-control"/>
+				% if add == False:
+					<input type="text" id="author" size="15" placeholder="Author" class="form-control" value="${quote.author.decode('utf-8')}">
+					<input type="hidden" id="qid" value="${quote.id}">
+				% else:
+					<input type="text" id="author" size="15" placeholder="Author" class="form-control">
+				% endif
+				</input>
 			</div>
 			</br>
-			<center>		
-				<button id="newQuoteButton" class="btn btn-default btn-block">Add the quote !</button>
+			<center>
+				% if add == False:
+					<button id="editQuoteButton" class="btn btn-default btn-block">Edit the quote !</button>
+				% else:
+					<button id="newQuoteButton" class="btn btn-default btn-block">Add the quote !</button>
+				% endif
 			</center>
 		</form>
 		</br>

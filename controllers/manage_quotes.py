@@ -33,6 +33,24 @@ class Manage:
 	
 	@cherrypy.expose
 	@cherrypy.tools.restrict_access()
+	def edit_one(self, qid, quote, author):
+		"""
+				Edit one quote
+		"""
+		try:
+			q = Quote.get(int(qid))
+			if q.submitter == cherrypy.session.get("username") or cherrypy.session.get("username") == "admin":
+				q.quote = quote
+				q.author = author
+				return '{"status": "ok", "msg": "Quote edited"}'
+			else:
+				return '{"status": "fail", "msg": "Nope"}'
+		except Exception as e:
+			print e
+			return '{ "status": "fail", "msg": "'+str(e)+'"}'
+	
+	@cherrypy.expose
+	@cherrypy.tools.restrict_access()
 	def del_one(self, qid):
 		"""
 			Delete a quote. Only if the person tying to access the page is
@@ -73,7 +91,21 @@ class Manage:
 			AJAX target page.
 		"""
 		tmpl =  controllers.config.lookup.get_template("quotes_add.html")
-		return tmpl.render(env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session)
+		return tmpl.render(env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session, add=True)
+	
+	@cherrypy.expose
+	@cherrypy.tools.restrict_access()
+	def edit(self, qid):
+		"""
+			Displays the page needed to add a quote. This is not the actual
+			AJAX target page.
+		"""
+		try:
+			quote = Quote.get(int(qid))
+		except:
+			raise cherrypy.HTTPError(404)
+		tmpl =  controllers.config.lookup.get_template("quotes_add.html")
+		return tmpl.render(quote=quote,env=controllers.config.htmlEnv, user=cherrypy.session.get("username"), session=cherrypy.session, add=False)
 		
 
 	@cherrypy.expose
