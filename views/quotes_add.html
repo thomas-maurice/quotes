@@ -1,7 +1,11 @@
 <%inherit file="base.html"/>
 
 <%block name="title">
-    ${env["name"]} - Add
+    % if add == False:
+		${env["name"]} - Edit
+	% else:
+		${env["name"]} - Add
+	% endif	
 </%block>
 
 <%block name="headjavascript">
@@ -71,7 +75,7 @@
 </%block>
 
 <center>
-	<h1>SysAquotes</h1>
+	<h1>${env["name"]}</h1>
 </center>
 <div class="row">
 	<div class="col-md-12">

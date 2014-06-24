@@ -57,7 +57,7 @@
 					data-hint="Submitted by ${quotes[i].submitter}">${quotes[i].author}</cite>
 					% if session.get("username") == quotes[i].submitter or session.get("username") == "admin":
 						| <a href="#" onclick="removeQuote(l${quotes[i].id});"><i class="fa fa-times"></i> Delete</a>
-						| <a href="#"><i class="fa fa-wrench"></i> Edit</a>
+						| <a href="${env['mountpoint']}/manage/edit/${quotes[i].id}"><i class="fa fa-wrench"></i> Edit</a>
 					% endif
 					 | <a href="${env['mountpoint']}/manage/one/${quotes[i].id}"><i class="fa fa-link"></i> Link</a>
 					</footer>
