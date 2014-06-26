@@ -49,4 +49,4 @@ def restrict_access(public=False, users = [], groups=[]):
 			print e
 			raise cherrypy.HTTPError(401)
 	
-cherrypy.tools.restrict_access = cherrypy.Tool('before_handler', restrict_access)
+cherrypy.tools.restrict_access = cherrypy.Tool('before_handler', restrict_access, priority=60)
