@@ -9,7 +9,18 @@ you use to store them has not an infinite memory. *quotes* is here to solve
 the problem !
 
 ## How do I run it ?
-You simply run `./quotes.py` in
+First you have to regenerate the configuration file ! It will enable the
+server to know where is the static directory, and the name of the
+application. This `name` will be displayed at the top of the website. So
+just run the command `./regenerateconf.sh <AppName>`.
+
+Then you want to build the static directory. Which will contain all the
+CSS and JavaScript from Bootstrap and FontAwesome not to mention them.
+To perform this action you need to have [bower](http://bower.io) installed.
+Once it is installed (via `npm install -g bower` for instance) just run
+the `./buildstatic.sh` script, and everything will be okay :)
+
+Now that you are ready, then you simply run `./quotes.py` in
 the source folder and the application will start on the port 8080.
 
 I would recommand to run it in a more premanent way behind Nginx or
