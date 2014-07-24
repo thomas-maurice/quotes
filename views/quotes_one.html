@@ -6,7 +6,7 @@
 
 <%block name="headjavascript">
 	<link rel="stylesheet" href="${env['mountpoint']}/static/css/hint.min.css"></link>
-	<script src="${env['mountpoint']}/static/js/jquery.js"></script>
+	<script src="${env['mountpoint']}/static/js/jquery.min.js"></script>
 	<script type="text/javascript">
 		function removeQuote(id) {
 			$.post("${env['mountpoint']}/manage/del_one", {
